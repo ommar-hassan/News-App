@@ -36,3 +36,5 @@ class GetScienceNewsErrorState extends NewsStates{
 class GetScienceNewsLoadingState extends NewsStates{}
 
 class SettingsState extends NewsStates{}
+
+class SwitchAppThemeState extends NewsStates{}

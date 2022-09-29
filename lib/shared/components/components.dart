@@ -1,7 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:news/shared/cubit/cubit.dart';
 
-Widget buildArticleItem(article) => Padding(
+Widget buildArticleItem(article, context) => Padding(
   padding: const EdgeInsets.all(20.0),
   child: Row(
     children: [
@@ -11,7 +12,7 @@ Widget buildArticleItem(article) => Padding(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             image: DecorationImage(
-              image: (article['urlToImage']) != null ? NetworkImage("${article['urlToImage']}") : const AssetImage('assets/images/News.png') as ImageProvider,
+              image: article['urlToImage'] != null ? NetworkImage("${article['urlToImage']}") : const AssetImage('assets/images/News.png') as ImageProvider,
               fit: BoxFit.cover,
             )
         ),
@@ -27,10 +28,7 @@ Widget buildArticleItem(article) => Padding(
               Expanded(
                 child: Text(
                   "${article['title']}",
-                  style: const TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium!.apply(color: NewsCubit.get(context).isDark ? Colors.white : Colors.black),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -48,10 +46,10 @@ Widget buildArticleItem(article) => Padding(
   ),
 );
 
-Widget articleBuilder(list) => ConditionalBuilder(
+Widget articleBuilder(list, context) => ConditionalBuilder(
   condition: list.isNotEmpty,
   builder: (context) => ListView.separated(
-    itemBuilder: (context, index) => buildArticleItem(list[index]),
+    itemBuilder: (context, index) => buildArticleItem(list[index], context),
     separatorBuilder: (context, index) => Padding(
       padding: const EdgeInsets.only(left: 20),
       child: Container(
@@ -63,5 +61,5 @@ Widget articleBuilder(list) => ConditionalBuilder(
     itemCount: list.length,
     physics: const BouncingScrollPhysics(),
   ),
-  fallback: (context) => const Center(child: CircularProgressIndicator()),
+  fallback: (context) => Center(child: CircularProgressIndicator()),
 );
