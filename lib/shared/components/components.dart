@@ -2,6 +2,57 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:news/shared/cubit/cubit.dart';
 
+Widget defaultFormField({
+  required TextEditingController controller,
+  required String label,
+  required TextInputType inputType,
+  required String? Function(String? value) validate,
+  required IconData? prefixIcon,
+  Color? prefixIconColor,
+  Color? labelColor,
+  Color? enabledBorderColor,
+  Color? textInputColor,
+  double? borderRaduis,
+  VoidCallback? onTap,
+  Function(String)? onChange,
+  IconData? suffixIcon,
+  VoidCallback? suffixPressed,
+  Function(String)? onSubmit,
+  bool isPassword = false,
+}) => TextFormField(
+  style: TextStyle(
+    color: textInputColor,
+  ),
+  obscureText: isPassword,
+  controller: controller,
+  decoration: InputDecoration(
+    labelText: label,
+    labelStyle: TextStyle(
+      color: labelColor,
+    ),
+    border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(borderRaduis!)
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(borderRaduis),
+      borderSide: BorderSide(
+        color: enabledBorderColor!,
+      ),
+    ),
+    prefixIcon: Icon(prefixIcon,
+    color: prefixIconColor,
+    ),
+    suffixIcon: IconButton(
+      icon: Icon(suffixIcon),
+      onPressed: suffixPressed,
+    ),
+  ), keyboardType: inputType,
+  onFieldSubmitted: onSubmit,
+  onChanged: onChange,
+  onTap: onTap,
+  validator: validate,
+);
+
 Widget buildArticleItem(article, context) => Padding(
   padding: const EdgeInsets.all(20.0),
   child: Row(
@@ -62,4 +113,10 @@ Widget articleBuilder(list, context) => ConditionalBuilder(
     physics: const BouncingScrollPhysics(),
   ),
   fallback: (context) => Center(child: CircularProgressIndicator()),
+);
+
+void navigateTo(context, widget) => Navigator.push(context,
+  MaterialPageRoute(
+      builder: (context) => widget
+  ),
 );

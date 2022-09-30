@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/modules/search/search_screen.dart';
+import 'package:news/shared/components/components.dart';
 import 'package:news/shared/cubit/cubit.dart';
 import 'package:news/shared/cubit/states.dart';
 
@@ -18,7 +20,9 @@ class HomeLayout extends StatelessWidget {
               actions: [
                 IconButton(
                   icon: const Icon(Icons.search),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigateTo(context, SearchScreen(),);
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.dark_mode_rounded),
